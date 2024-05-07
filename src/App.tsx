@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import '@fontsource/roboto/300.css';
@@ -10,10 +10,18 @@ import RegistrationForm from './HomePage/RegistrationForm';
 
 
 function App() {
+  const registrationFormRef = useRef<HTMLDivElement>(null);
+
+  const scrollToRegistration = () => {
+    registrationFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+};
+
   return (
     <>
-    <Header></Header>
-    <RegistrationForm></RegistrationForm>
+    <Header onButtonClick={scrollToRegistration}></Header>
+    <div ref={registrationFormRef}>
+      <RegistrationForm></RegistrationForm>
+    </div>
     </>
   );
 }
