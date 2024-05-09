@@ -1,6 +1,7 @@
 import { Box, Button, Container, CssBaseline, TextField, Theme, ThemeProvider, Typography, colors, createTheme, outlinedInputClasses, useTheme } from "@mui/material";
-import "./HomePage.css";
+import "../HomePage.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const customTheme = (outerTheme: Theme) =>
     createTheme({
@@ -76,6 +77,8 @@ export default function RegistrationForm(){
     const [lname, setLName] = useState("");
     const [lnameError, setLNameError] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleFNameChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       setFName(e.target.value);
       if(e.target.validity.valid){
@@ -101,6 +104,7 @@ export default function RegistrationForm(){
       if(!fnameError && !lnameError){
         const data = new FormData(event.currentTarget);
         console.log(data.get('fname'));
+        navigate('/quest');
       }
     };
 
@@ -123,13 +127,12 @@ export default function RegistrationForm(){
                         name="lname"/>
                     </ThemeProvider>
 
-
                     <ThemeProvider theme={customTheme(outerTheme)} >
-                        <TextField label="Phone Number" margin="normal" fullWidth name="phone" />
+                        <TextField  label="Email" type="email" margin="normal" fullWidth name="email" />
                     </ThemeProvider>
 
                     <ThemeProvider theme={customTheme(outerTheme)} >
-                        <TextField  label="Age" margin="normal" fullWidth name="age" />
+                        <TextField label="Phone Number" margin="normal" fullWidth name="phone" />
                     </ThemeProvider>
 
                     <Button variant='contained' type="submit" sx={{ mt: 3 }} style={{backgroundColor:"#3E0758"}} fullWidth >Next</Button>

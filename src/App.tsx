@@ -1,28 +1,27 @@
-import React, { useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import logo from './logo.svg';
-import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/700.css';
-import { Container, Typography } from '@mui/material';
-import Header from './HomePage/Header';
-import RegistrationForm from './HomePage/RegistrationForm';
+
+import './App.css';
+import HomePage from './HomePage/HomePage';
+import QuestionnairePage from './QuestionnairePage/QuestionnairePage';
+import PrivateRouter from './PrivateRouter';
+import { Fragment } from 'react/jsx-runtime';
 
 
 function App() {
-  const registrationFormRef = useRef<HTMLDivElement>(null);
-
-  const scrollToRegistration = () => {
-    registrationFormRef.current?.scrollIntoView({ behavior: 'smooth' });
-};
-
   return (
-    <>
-    <Header onButtonClick={scrollToRegistration}></Header>
-    <div ref={registrationFormRef}>
-      <RegistrationForm></RegistrationForm>
-    </div>
-    </>
+    <Router>
+      <Fragment>
+        <Routes>
+          <Route path='/' element={<HomePage></HomePage>}/>
+          <Route path='/quest' element={<QuestionnairePage></QuestionnairePage>}/>
+        </Routes>
+      </Fragment>
+    </Router>
   );
 }
 
