@@ -1,0 +1,36 @@
+:root{
+    --main-colour: #3E0758;
+    --secondary-colour: #543457;
+    --text-colour: #3a203c;
+}
+
+.quest-page{
+    background: rgb(209,199,231);
+    background: linear-gradient(90deg, rgba(209,199,231,1) 0%, rgba(200,194,228,1) 10%, rgba(225,206,233,1) 70%); 
+}
+
+.quest-page .sub-button{
+    max-width: 15%;
+}
+
+.title{
+    color: var(--main-colour);
+    /* text-align: center; */
+}
+
+.text{
+    color: var(--main-colour);
+    margin-top: 10px !important;
+}
+
+.question{
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+.question .text{
+    color: var(--main-colour);
+    display: inline;
+    /* margin-left: 15px; */
+}
+
