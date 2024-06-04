@@ -10,18 +10,22 @@ import HomePage from './HomePage/HomePage';
 import QuestionnairePage from './QuestionnairePage/QuestionnairePage';
 import PrivateRouter from './PrivateRouter';
 import { Fragment } from 'react/jsx-runtime';
+import ResponsiveAppBar from './NavBar/AppBar';
 
 
 function App() {
   return (
+    <>
     <Router>
       <Fragment>
+        <ResponsiveAppBar></ResponsiveAppBar>
         <Routes>
           <Route path='/' element={<HomePage></HomePage>}/>
           <Route path='/quest' element={<QuestionnairePage></QuestionnairePage>}/>
         </Routes>
       </Fragment>
     </Router>
+    </>
   );
 }
 

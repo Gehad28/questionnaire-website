@@ -1,7 +1,7 @@
 
 export default 
 [{
-    id: "0",
+    id: 0,
     text: "I lost myself in this experience.",
     dimensionIdentifier: "FA"
 },
