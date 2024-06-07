@@ -13,15 +13,19 @@ interface QuestionType{
     dimensionIdentifier: string
 }
 
-const shuffle = (array: any) => {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return array;
+interface AnswerType{
+    q_id: number,
+    response: number
 }
+
+const shuffleArray = (array: QuestionType[]) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+};
 
 
 const style = {
@@ -46,7 +50,7 @@ export default function QuestionnairePage(){
     const [shuffledQuestions, setShuffledQuestions] = useState<QuestionType[]>([]);
     useEffect(() => {
         // Shuffle the questions only once when the component mounts
-        const shuffled = shuffle(Questions);
+        const shuffled = shuffleArray(Questions);
         setShuffledQuestions(shuffled);
     }, []);
 
@@ -56,11 +60,18 @@ export default function QuestionnairePage(){
     };
 
     const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
-    const handleRadioChange = (questionIndex: number, selectedOption: string) => {
+    const [answers, setAnswers] = useState<AnswerType[]>([]);
+    const handleRadioChange = (questionIndex: number, selectedOption: string, q_id: number) => {
         setSelectedAnswers((prev) => ({
             ...prev,
             [questionIndex]: selectedOption,
         }));
+        setAnswers((prevAnswers) => [...prevAnswers, 
+            {
+            q_id: q_id,
+            response: Number(selectedOption)
+            }
+        ]);
     };
 
     const [open, setOpen] = useState(false);
@@ -69,6 +80,7 @@ export default function QuestionnairePage(){
     const handleClose = () => {
         if(submitState){
             navigate('/');
+            console.log(answers);
             // ----- Call API Here -----
         }
         else{
@@ -110,7 +122,7 @@ export default function QuestionnairePage(){
                             question={shuffledQuestions[page - 1].text} 
                             id={page - 1}
                             selectedOption={selectedAnswers[page - 1] || ''}
-                            onChange={(selectedOption: string) => handleRadioChange(page - 1, selectedOption)} 
+                            onChange={(selectedOption: string) => handleRadioChange(page - 1, selectedOption, shuffledQuestions[page - 1].id)} 
                             />
                     )}
                     <Pagination

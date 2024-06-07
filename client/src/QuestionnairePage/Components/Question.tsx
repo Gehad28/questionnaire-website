@@ -12,7 +12,6 @@ type Props = {
 }
 
 export default function Question(props: Props){
-    const [value, setValue] = useState('');
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         props.onChange((event.target as HTMLInputElement).value);

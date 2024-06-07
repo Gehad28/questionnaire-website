@@ -104,6 +104,9 @@ export default function RegistrationForm(){
       if(!fnameError && !lnameError){
         const data = new FormData(event.currentTarget);
         console.log(data.get('fname'));
+
+        // ----- Call API Here -----
+
         navigate('/quest');
       }
     };
