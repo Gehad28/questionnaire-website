@@ -55,3 +55,100 @@ This guide provides steps to set up your project.
     ```bash
     ts-node src/app
     ```
+
+
+## API Documentation
+
+### 1. Create a User
+
+- **Endpoint:**
+    ```
+    POST http://localhost:10000/user/
+    ```
+- **Request Body:**
+    ```json
+    {
+      "firstName": "sara",
+      "lastName": "ahmed"
+    }
+    ```
+- **Response:**
+    ```json
+    {
+      "userId": 1
+    }
+    ```
+
+### 2. Post Answers
+
+- **Endpoint:**
+    ```
+    POST http://localhost:10000/question/
+    ```
+- **Request Body:**
+    ```json
+    {
+      "userId": 1,
+      "answers": [
+        { "id": 1, "response": 2, "dimension": "FA" },
+        { "id": 2, "response": 4, "dimension": "FA" },
+        { "id": 3, "response": 3, "dimension": "FA" },
+        { "id": 4, "response": 5, "dimension": "FA" },
+        { "id": 5, "response": 1, "dimension": "FA" },
+        { "id": 6, "response": 4, "dimension": "FA" },
+        { "id": 7, "response": 3, "dimension": "FA" },
+        { "id": 1, "response": 4, "dimension": "PU" },
+        { "id": 2, "response": 3, "dimension": "PU" },
+        { "id": 3, "response": 5, "dimension": "PU" },
+        { "id": 4, "response": 1, "dimension": "PU" },
+        { "id": 5, "response": 4, "dimension": "PU" },
+        { "id": 6, "response": 3, "dimension": "PU" },
+        { "id": 7, "response": 2, "dimension": "PU" },
+        { "id": 8, "response": 4, "dimension": "PU" },
+        { "id": 1, "response": 2, "dimension": "AE" },
+        { "id": 2, "response": 4, "dimension": "AE" },
+        { "id": 3, "response": 3, "dimension": "AE" },
+        { "id": 4, "response": 5, "dimension": "AE" },
+        { "id": 5, "response": 1, "dimension": "AE" },
+        { "id": 1, "response": 4, "dimension": "RW" },
+        { "id": 2, "response": 3, "dimension": "RW" },
+        { "id": 3, "response": 5, "dimension": "RW" },
+        { "id": 4, "response": 1, "dimension": "RW" },
+        { "id": 5, "response": 4, "dimension": "RW" },
+        { "id": 6, "response": 3, "dimension": "RW" },
+        { "id": 7, "response": 2, "dimension": "RW" },
+        { "id": 8, "response": 4, "dimension": "RW" },
+        { "id": 9, "response": 2, "dimension": "RW" },
+        { "id": 10, "response": 1, "dimension": "RW" }
+      ]
+    }
+    ```
+- **Response:**
+    ```json
+    {
+      "message": "Answers saved successfully"
+    }
+    ```
+
+### 3. Calculate Score
+
+- **Endpoint:**
+    ```
+    GET http://localhost:10000/question/score/:userId
+    ```
+    `:userId` is a placeholder for the user's unique ID.
+
+- **Response:**
+    ```json
+    {
+      "message": "Answers saved successfully",
+      "dimensionAverages": {
+        "FA": 3.142857142857143,
+        "PU": 3.25,
+        "AE": 3,
+        "RW": 2.9
+      },
+      "totalDimensionAverage": 12.292857142857143
+    }
+    ```
+    The score that we need is `totalDimensionAverage`
