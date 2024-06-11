@@ -85,11 +85,16 @@ export default function QuestionnairePage(){
             // ----- Call API Here -----
 
             const dataTobeSent = {
-                userId: localStorage.getItem('id'),
+                userId: Number(localStorage.getItem('id')),
                 answers: answers
             }
             axios.post('http://localhost:10000/question/', dataTobeSent).then(response => {
                 console.log(response.data);
+                // axios.get('http://localhost:10000/question/score/' + localStorage.getItem('id')).then(res => {
+                //     console.log(res.data);
+                // }).catch(err => {
+                //     console.log(err);
+                // })
             }).catch(error => {
                 console.log(error);
             })

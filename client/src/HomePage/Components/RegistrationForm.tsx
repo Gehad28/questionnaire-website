@@ -107,8 +107,8 @@ export default function RegistrationForm(){
 
         // ----- Call API Here -----
         const dataTobeSent = {
-          firstName: data.get('fname'),
-          lastName: data.get('lname')
+          "firstName": data.get('fname'),
+          "lastName": data.get('lname')
         }
 
         axios.post('http://localhost:10000/user/', dataTobeSent).then(response => {

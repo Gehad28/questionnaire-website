@@ -1,5 +1,5 @@
 import express from 'express';
-// import cors from 'cors';
+import cors from 'cors';
 // require('dotenv').config();
 
 import userRoute from './routes/userRoute';
@@ -11,12 +11,12 @@ const port = process.env.PORT ||10000;
 //built-in middleware for json
 app.use(express.json());
 
-// app.use(cors({
-//   origin: '*',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   // allowedHeaders: ['Content-Type'],
-//   credentials: true,
-// }));
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  // allowedHeaders: ['Content-Type'],
+  credentials: true,
+}));
 
 
 app.use('/user',userRoute);

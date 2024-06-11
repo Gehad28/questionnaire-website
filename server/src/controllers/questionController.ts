@@ -11,9 +11,12 @@ export const saveAnswers = async (req: Request, res: Response) => {
   }
 
   try {
+    const parsedId = parseInt(userId)
     const user = await prisma.user.findUnique({ 
-        where: { userId } 
-    });
+        where: { 
+          userId: parsedId 
+        } 
+    });
 
     
     if (!user) {
@@ -21,7 +24,7 @@ export const saveAnswers = async (req: Request, res: Response) => {
     }
     
     const answerData = answers.map((answer: { id: number; response: number; dimension: string }) => ({
-      userId,
+      userId: parsedId,
       questionId: answer.id,
       dimension: answer.dimension,
       response: answer.response,
