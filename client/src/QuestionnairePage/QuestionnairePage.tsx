@@ -5,7 +5,7 @@ import { randomInt } from "crypto";
 import Questions from "../Questions";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
 
 interface QuestionType{
     id: number,
@@ -14,8 +14,9 @@ interface QuestionType{
 }
 
 interface AnswerType{
-    q_id: number,
-    response: number
+    id: number,
+    response: number,
+    dimension: string
 }
 
 const shuffleArray = (array: QuestionType[]) => {
@@ -61,15 +62,16 @@ export default function QuestionnairePage(){
 
     const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
     const [answers, setAnswers] = useState<AnswerType[]>([]);
-    const handleRadioChange = (questionIndex: number, selectedOption: string, q_id: number) => {
+    const handleRadioChange = (questionIndex: number, selectedOption: string, q_id: number, dimension: string) => {
         setSelectedAnswers((prev) => ({
             ...prev,
             [questionIndex]: selectedOption,
         }));
         setAnswers((prevAnswers) => [...prevAnswers, 
             {
-            q_id: q_id,
-            response: Number(selectedOption)
+                id: q_id,
+                response: Number(selectedOption),
+                dimension: dimension
             }
         ]);
     };
@@ -80,8 +82,17 @@ export default function QuestionnairePage(){
     const handleClose = () => {
         if(submitState){
             navigate('/');
-            console.log(answers);
             // ----- Call API Here -----
+
+            const dataTobeSent = {
+                userId: localStorage.getItem('id'),
+                answers: answers
+            }
+            axios.post('http://localhost:10000/question/', dataTobeSent).then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
         }
         else{
             setOpen(false);
@@ -122,7 +133,7 @@ export default function QuestionnairePage(){
                             question={shuffledQuestions[page - 1].text} 
                             id={page - 1}
                             selectedOption={selectedAnswers[page - 1] || ''}
-                            onChange={(selectedOption: string) => handleRadioChange(page - 1, selectedOption, shuffledQuestions[page - 1].id)} 
+                            onChange={(selectedOption: string) => handleRadioChange(page - 1, selectedOption, shuffledQuestions[page - 1].id, shuffledQuestions[page - 1].dimensionIdentifier)} 
                             />
                     )}
                     <Pagination

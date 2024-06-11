@@ -2,6 +2,7 @@ import { Box, Button, Container, CssBaseline, TextField, Theme, ThemeProvider, T
 import "../HomePage.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const customTheme = (outerTheme: Theme) =>
     createTheme({
@@ -103,11 +104,21 @@ export default function RegistrationForm(){
       event.preventDefault();
       if(!fnameError && !lnameError){
         const data = new FormData(event.currentTarget);
-        console.log(data.get('fname'));
 
         // ----- Call API Here -----
+        const dataTobeSent = {
+          firstName: data.get('fname'),
+          lastName: data.get('lname')
+        }
 
-        navigate('/quest');
+        axios.post('http://localhost:10000/user/', dataTobeSent).then(response => {
+          localStorage.setItem('id', response.data.userId);
+          navigate('/quest');
+        }).catch(error => {
+          console.log(error);
+        })
+
+        // navigate('/quest');
       }
     };
 
