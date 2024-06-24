@@ -1,8 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fa1 } from '@fortawesome/free-solid-svg-icons';
-
-import { Box, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Card, CardContent, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Theme, Typography, createTheme } from "@mui/material";
+import { useMediaQuery } from '@mui/material';
 
 type Props = {
     id: number,
@@ -17,14 +14,26 @@ export default function Question(props: Props){
         props.onChange((event.target as HTMLInputElement).value);
     };
 
+    const theme = createTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
     return(
-            <Card variant="outlined" sx={{ mb: 2}}>
+            <Card 
+            variant="outlined" 
+            sx=
+            {{ 
+                mb: 2, 
+                backgroundColor: "transparent", 
+                border: '1px solid rgba(62, 7, 88, 0.3)', 
+                minWidth: isSmallScreen ? theme.breakpoints.down('md') : 760
+            }}
+            >
                 <CardContent>
                     <Box
                     display="flex"
                     flexDirection="column"
-                    alignItems="center"
-                    justifyContent="center"
+                    alignItems={isSmallScreen ? "flex-start" : "center"} 
+                    justifyContent={isSmallScreen ? "flex-start" : "center"} 
                     style={{ minHeight: '200px' }}
                     >
                         <FormControl>
@@ -36,14 +45,14 @@ export default function Question(props: Props){
                             <Box
                             display="flex"
                             flexDirection="column"
-                            alignItems="center"
-                            justifyContent="center"
+                            alignItems= {isSmallScreen ? "flex-start" : "center"} 
+                            justifyContent= {isSmallScreen ? "flex-start" : "center"} 
                             style={{ minHeight: '100px' }}
                             >
                                 <RadioGroup 
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="radio-buttons-group"
-                                    row
+                                    row={!isSmallScreen}
                                     value={props.selectedOption}
                                     onChange={handleChange}
                                     className="radio"

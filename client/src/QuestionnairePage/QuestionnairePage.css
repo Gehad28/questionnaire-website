@@ -2,10 +2,10 @@
     --main-colour: #3E0758;
     --secondary-colour: #543457;
     --text-colour: #3a203c;
-    --d-color: #523a5d;
 }
 
 .quest-page{
+    /* color: rgb(62, 7, 88); */
     background: #d1c7e7;
     background: linear-gradient(90deg, rgba(209,199,231,1) 0%, rgba(200,194,228,1) 10%, rgba(225,206,233,1) 70%); 
     min-height: 100vh;
@@ -26,10 +26,10 @@
 }
 
 .questions-sec{
-    min-width: 760px;
+    /* min-width: 760px; */
     margin-top: 15%;
-    margin-left: 50%;
-    transform: translate(-50%, -15%);
+    margin-left: 15%;
+    transform: translate(-15%, -15%);
 }
 
 .form-label{
@@ -40,11 +40,6 @@
 
 .radio{
     margin-top: 10px;
-}
-
-
-.pagination{
-    padding-left: 200px;
 }
 
 .sub-btns
