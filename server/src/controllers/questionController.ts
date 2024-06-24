@@ -15,8 +15,8 @@ export const saveAnswers = async (req: Request, res: Response) => {
     const user = await prisma.user.findUnique({ 
         where: { 
           userId: parsedId 
-        } 
-    });
+        }
+    });
 
     
     if (!user) {
@@ -46,12 +46,8 @@ export const saveAnswers = async (req: Request, res: Response) => {
 
 export const calculateDimensionAverages = async (req: Request, res: Response) => {
   try {
-    // const { userId, answers } = req.body;
     const { userId } = req.params;
 
-    // if (!userId || !Array.isArray(answers) || answers.length === 0) {
-    //   return res.status(400).json({ error: 'Invalid input data' });
-    // }
     const parsedUserId = parseInt(userId);
     if (isNaN(parsedUserId)) {
       throw new Error('Invalid userId format. Must be an integer.');
@@ -67,7 +63,14 @@ export const calculateDimensionAverages = async (req: Request, res: Response) =>
       if (!answersByDimension[answer.dimension]) {
         answersByDimension[answer.dimension] = [];
       }
-      answersByDimension[answer.dimension].push(answer.response);
+      //Reverse some answers
+      if (((answer.dimension == "PU") && (answer.questionId != 7)) || ((answer.dimension == "RW") && (answer.questionId == 3))){
+        const newResponse = Math.abs(answer.response - 6)
+        answersByDimension[answer.dimension].push(newResponse);
+      }
+      else{
+        answersByDimension[answer.dimension].push(answer.response);
+      }
     });
 
     // Calculate average response for each dimension
