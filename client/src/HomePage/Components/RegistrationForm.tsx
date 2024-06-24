@@ -116,9 +116,7 @@ export default function RegistrationForm(){
           navigate('/quest');
         }).catch(error => {
           console.log(error);
-        })
-
-        // navigate('/quest');
+        });
       }
     };
 
