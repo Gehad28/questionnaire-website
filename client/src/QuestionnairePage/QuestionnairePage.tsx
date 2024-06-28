@@ -1,4 +1,4 @@
-import { Box, Button, Container, Modal, Pagination, Typography } from "@mui/material";
+import { Box, Button, Container, Modal, Pagination, Typography, createTheme, styled } from "@mui/material";
 import "./QuestionnairePage.css";
 import Question from "./Components/Question";
 import { randomInt } from "crypto";
@@ -48,21 +48,40 @@ export default function QuestionnairePage(){
 
     const navigate = useNavigate();
 
+//  __________ STATES __________
     const [shuffledQuestions, setShuffledQuestions] = useState<QuestionType[]>([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
+    const [answers, setAnswers] = useState<AnswerType[]>([]);
+    const [open, setOpen] = useState(false);
+    const [submitState, setSubmitState] = useState(false);
+    const [popText, setPopText] = useState('');
+
+
     useEffect(() => {
         // Shuffle the questions only once when the component mounts
         const shuffled = shuffleArray(Questions);
         setShuffledQuestions(shuffled);
     }, []);
 
-    const [page, setPage] = useState(1);
-    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-    };
 
-    const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
-    const [answers, setAnswers] = useState<AnswerType[]>([]);
+//  __________ HANDELS ___________
+
+    const handleNext = (event: React.ChangeEvent<unknown>) => {
+        if (currentQuestionIndex < shuffledQuestions.length)
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+
+    const handlePrev = (eveny: React.ChangeEvent<unknown>) => {
+        if (currentQuestionIndex > 0)
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+
     const handleRadioChange = (questionIndex: number, selectedOption: string, q_id: number, dimension: string) => {
+        if (questionIndex == shuffledQuestions.length - 1){
+            setIsButtonDisabled(false);
+        }
         setSelectedAnswers((prev) => ({
             ...prev,
             [questionIndex]: selectedOption,
@@ -76,20 +95,18 @@ export default function QuestionnairePage(){
         ]);
     };
 
-    const [open, setOpen] = useState(false);
-    const [submitState, setSubmitState] = useState(false);
     const handleOpen = () => setOpen(true);
+
     const handleClose = () => {
         if(submitState){
-            navigate('/');
             // ----- Call API Here -----
-
             const dataTobeSent = {
                 userId: Number(localStorage.getItem('id')),
                 answers: answers
             }
             axios.post('http://localhost:10000/question/', dataTobeSent).then(response => {
                 console.log(response.data);
+                navigate('/');
                 // axios.get('http://localhost:10000/question/score/' + localStorage.getItem('id')).then(res => {
                 //     console.log(res.data);
                 // }).catch(err => {
@@ -104,11 +121,8 @@ export default function QuestionnairePage(){
         }
     }
 
-
-    const [popText, setPopText] = useState('');
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const answeredQusetions = Object.keys(selectedAnswers).length;
-
         if(answeredQusetions == shuffledQuestions.length){
             setSubmitState(true);
             setPopText('Thank you for taking this questinnaire.');
@@ -116,10 +130,9 @@ export default function QuestionnairePage(){
         }
         else{
             setSubmitState(false);
-            setPopText('Please answer all questions before proceeding.');
-            handleOpen();
         }
     }
+
 
     return(
         <>
@@ -135,23 +148,68 @@ export default function QuestionnairePage(){
                 <div className="questions-sec">
                     {shuffledQuestions.length > 0 && (
                             <Question 
-                            question={shuffledQuestions[page - 1].text} 
-                            id={page - 1}
-                            selectedOption={selectedAnswers[page - 1] || ''}
-                            onChange={(selectedOption: string) => handleRadioChange(page - 1, selectedOption, shuffledQuestions[page - 1].id, shuffledQuestions[page - 1].dimensionIdentifier)} 
+                            question={shuffledQuestions[currentQuestionIndex].text} 
+                            id={currentQuestionIndex}
+                            selectedOption={selectedAnswers[currentQuestionIndex] || ''}
+                            onChange={(selectedOption: string) => handleRadioChange(currentQuestionIndex, selectedOption, shuffledQuestions[currentQuestionIndex].id, shuffledQuestions[currentQuestionIndex].dimensionIdentifier)} 
                             />
                     )}
-                    <Pagination
-                        count={shuffledQuestions.length}
-                        variant="outlined"
-                        color="secondary"
-                        page={page}
-                        onChange={handleChange}
-                        className="pagination"
-                    />
 
-                    <div className="sub-button">
-                        <Button variant='contained' onClick={handleSubmit} sx={{ mt: 4 }} style={{backgroundColor:"#3E0758"}} fullWidth >Submit</Button>
+                    <div className="btns">
+                        <div className="sub-btns">
+                            <Button 
+                            variant='contained' 
+                            fullWidth
+                            onClick={handlePrev}
+                            disabled={currentQuestionIndex == 0 ? true : false}
+                            sx={{ 
+                                backgroundColor: (currentQuestionIndex == 0) ? "#4d3359" : "#3E0758",
+                                color: (currentQuestionIndex == 0) ? "#d1c7e7" : "#ffffff",
+                                "&.Mui-disabled": {
+                                    background: "#4d3359",
+                                    color: "#d1c7e7" 
+                                },
+                                "&:hover": {
+                                    backgroundColor: (currentQuestionIndex == 0) ? "#4d3359" : "#3E0758",
+                                }
+                            }}
+                            >
+                                Previous
+                            </Button>
+                        </div>
+                        <div className="sub-btns">
+                            {
+                                (currentQuestionIndex < shuffledQuestions.length - 1) ? 
+                                (<Button 
+                                variant='contained' 
+                                style={{backgroundColor:"#3E0758"}} 
+                                fullWidth
+                                onClick={handleNext}
+                                >
+                                Next
+                                </Button>)
+                                :
+                                (<Button 
+                                variant='contained' 
+                                onClick={handleSubmit} 
+                                sx={{ 
+                                    backgroundColor: isButtonDisabled ? "#4d3359" : "#3E0758",
+                                    color: isButtonDisabled ? "#d1c7e7" : "#ffffff",
+                                    "&.Mui-disabled": {
+                                        background: "#4d3359",
+                                        color: "#d1c7e7" 
+                                    },
+                                    "&:hover": {
+                                        backgroundColor: isButtonDisabled ? "#4d3359" : "#3E0758",
+                                    }
+                                }}
+                                fullWidth 
+                                disabled={isButtonDisabled}
+                                >
+                                    Submit
+                                </Button>)
+                            }
+                        </div>
                     </div>
                 </div>
             </Container>

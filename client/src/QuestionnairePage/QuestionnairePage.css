@@ -5,14 +5,15 @@
 }
 
 .quest-page{
-    background: rgb(209,199,231);
+    /* color: rgb(62, 7, 88); */
+    background: #d1c7e7;
     background: linear-gradient(90deg, rgba(209,199,231,1) 0%, rgba(200,194,228,1) 10%, rgba(225,206,233,1) 70%); 
     min-height: 100vh;
 }
 
 .quest-page .sub-button{
     max-width: 20%;
-    padding-left: 300px;
+    margin: auto;
 }
 
 .title{
@@ -25,10 +26,10 @@
 }
 
 .questions-sec{
-    min-width: 760px;
+    /* min-width: 760px; */
     margin-top: 15%;
-    margin-left: 50%;
-    transform: translate(-50%, -15%);
+    margin-left: 15%;
+    transform: translate(-15%, -15%);
 }
 
 .form-label{
@@ -41,8 +42,13 @@
     margin-top: 10px;
 }
 
-
-.pagination{
-    padding-left: 200px;
+.sub-btns
+{
+    min-width: 15%;
 }
 
+.btns
+{
+    display: flex;
+    justify-content: space-evenly;
+}

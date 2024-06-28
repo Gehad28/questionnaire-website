@@ -64,7 +64,7 @@ export const calculateDimensionAverages = async (req: Request, res: Response) =>
         answersByDimension[answer.dimension] = [];
       }
       //Reverse some answers
-      if (((answer.dimension == "PU") && (answer.questionId != 7)) || ((answer.dimension == "RW") && (answer.questionId == 3))){
+      if (((answer.dimension == "PU") && (answer.questionId != 13)) || ((answer.dimension == "RW") && (answer.questionId ==22))){
         const newResponse = Math.abs(answer.response - 6)
         answersByDimension[answer.dimension].push(newResponse);
       }
