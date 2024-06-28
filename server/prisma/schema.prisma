@@ -19,6 +19,8 @@ model User{
   lastName String
   email String?
   phoneNumber String?
+  gender String?
+  age Int?
 
   answers   Answer[]
 }
