@@ -20,7 +20,7 @@ model User{
   email String?
   phoneNumber String?
   gender String?
-  age Int?
+  age String?
 
   answers   Answer[]
 }
