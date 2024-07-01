@@ -19,8 +19,8 @@ model User{
   lastName String
   email String?
   phoneNumber String?
+  age String?
   gender String?
-  age Int?
 
   answers   Answer[]
 }
@@ -30,10 +30,9 @@ model Answer {
   userId     Int
   questionId Int
   dimension  String
-  response   Int      // Assuming response is an integer; adjust type as needed
-  // createdAt  DateTime @default(now())
+  response   Int
+  vr_response Int?
+  question String? 
 
   user       User     @relation(fields: [userId], references: [userId])
-
-  // @@unique([userId])
 }
