@@ -10,7 +10,9 @@ interface CSVRow {
 }
 
 const prisma = new PrismaClient();
-const directoryPath = 'G:/SBME/Fourth Year/Graduation Project/Vr Questionnaire/CSVFiles/try';
+// const directoryPath = 'G:/SBME/Fourth Year/Graduation Project/Vr Questionnaire/CSVFiles/try';
+const directoryPath = 'F:/Study/GP/Questionnaire/Website/DB Modified/try';
+
 
 async function processCSVFiles(directory: string) {
     fs.readdir(directory, async (err, files) => {

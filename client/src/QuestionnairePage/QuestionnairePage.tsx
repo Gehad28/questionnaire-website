@@ -104,8 +104,9 @@ export default function QuestionnairePage(){
                 userId: Number(localStorage.getItem('id')),
                 answers: answers
             }
+            console.log(dataTobeSent);
             axios.post('http://localhost:10000/question/', dataTobeSent).then(response => {
-                console.log(response.data);
+                // console.log(response.data);
                 navigate('/');
                 // axios.get('http://localhost:10000/question/score/' + localStorage.getItem('id')).then(res => {
                 //     console.log(res.data);
@@ -140,7 +141,7 @@ export default function QuestionnairePage(){
             <Container sx={{pt: 5, pb: 5}} maxWidth="md">
                 <Typography variant="h4" fontWeight={700} className="title">User Experience Questionnaire</Typography>
                 <Typography variant="h6" className="text">
-                The following statements ask you to reflect on your experience of engaging with the VR Game.
+                The following statements ask you to reflect on your experience of engaging with the computerized Game.
                 For each statement, please use the following scale to indicate what is
                 most true for you.
                 </Typography>
