@@ -122,7 +122,7 @@ export default
 },
 {
     id: 24,
-    text: "My experience was rewarding.",
+    text: "I would recommend this game to my family and friends.",
     dimensionIdentifier: "RW"
 },
 {
