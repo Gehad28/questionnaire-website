@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export const createUser = async (req: Request, res: Response) => {
     const userData = req.body;
     try {
+      // const parsedId = parseInt(userData.age);
      
       if(!userData.firstName || !userData.lastName) {
         throw new Error('Missing required data');
@@ -14,12 +15,6 @@ export const createUser = async (req: Request, res: Response) => {
       else{
         const newUser = await prisma.user.create({
           data: userData,
-          // data: {
-          //   firstName: userData.first,
-          //   lastName: userData.last,
-          //   email: userData.email,
-          //   phoneNumber: userData.phoneNumber,
-          // },
         });
         res.status(201).json({userId: newUser.userId });
       } 

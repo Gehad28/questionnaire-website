@@ -23,16 +23,49 @@ model User{
   gender String?
 
   answers   Answer[]
+  scores    VrScores[]
+  ues       UesScores[]
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  questionId Int
-  dimension  String
-  response   Int
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  questionId  Int
+  dimension   String
+  response    Int
   vr_response Int?
-  question String? 
+  question    String? 
+
+  user       User     @relation(fields: [userId], references: [userId])
+}
+
+model VrScores {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  firstTimer  Float?
+  secondTimer Float?
+  thirdTimer  Float?
+  mistakes    Int?
+  voiceScore  Int?
+  signScore   Int?
+
+  user       User     @relation(fields: [userId], references: [userId])
+}
+
+model UesScores{
+  id          Int      @id @default(autoincrement())
+  userId      Int  
+  VR_FA       Float
+  VR_RW       Float
+  VR_AE       Float
+  VR_PU       Float
+  vVR_total    Float
+
+  reha_FA     Float
+  reha_RW     Float
+  reha_AE     Float
+  reha_PU     Float
+  reha_total  Float
 
   user       User     @relation(fields: [userId], references: [userId])
 }
